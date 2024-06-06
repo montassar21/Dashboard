@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 
 @Component({
@@ -7,25 +7,34 @@ import { Chart, registerables } from 'chart.js';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements AfterViewInit {
-
-  @ViewChild('barCanvas') barCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('barCanvas')
+  private barCanvas!: ElementRef<HTMLCanvasElement>;
   barChart!: Chart;
+  years: number[] = [2020, 2021, 2022];
+  selectedYear: number = 2021;
+  housings: string[] = ['Logement A', 'Logement B', 'Logement C'];
+  selectedHousing: string = 'Logement A';
 
   constructor() {
     Chart.register(...registerables);
   }
 
   ngAfterViewInit(): void {
+    this.createChart();
+  }
+
+  createChart() {
     this.barChart = new Chart(this.barCanvas.nativeElement, {
-      type: 'bar',
+      type: 'line',  // Changé de 'bar' à 'line'
       data: {
-        labels: ['sep.', 'oct.', 'nov.', 'dec.', 'jan.', 'fev.', 'mars.','avr.','mai.','juin.','juil.','aout.'],
+        labels: ['jan.', 'fev.', 'mar.', 'avr.', 'mai.', 'juin.', 'juil.', 'aou.', 'sep.', 'oct.', 'nov.', 'dec.'],
         datasets: [{
-          label: 'Layers',
-          data: [1, 5, 2, 7, 4, 3, 5,2,6,4,2,1],
-          backgroundColor: 'rgba(54, 162, 235, 0.5)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
+          label: `Pay-out versé ${this.selectedYear} - ${this.selectedHousing}`,
+          data: this.getDataForYearAndHousing(),
+          backgroundColor: 'rgba(0, 123, 255, 0.2)',  // Couleur de fond plus légère pour un graphique linéaire
+          borderColor: 'rgba(0, 123, 255, 1)',  // Couleur de la ligne
+          borderWidth: 2,
+          fill: false  // Désactive le remplissage sous la ligne
         }]
       },
       options: {
@@ -36,5 +45,25 @@ export class DashboardComponent implements AfterViewInit {
         }
       }
     });
+  }
+
+
+  getDataForYearAndHousing(): number[] {
+    // Simulate fetching data based on year and housing
+    return Array.from({ length: 12 }, () => Math.floor(Math.random() * 7));
+  }
+
+  onYearChange() {
+    this.updateChartData();
+  }
+
+  onHousingChange() {
+    this.updateChartData();
+  }
+
+  updateChartData() {
+    this.barChart.data.datasets[0].data = this.getDataForYearAndHousing();
+    this.barChart.data.datasets[0].label = `Layers ${this.selectedYear} - ${this.selectedHousing}`;
+    this.barChart.update();
   }
 }

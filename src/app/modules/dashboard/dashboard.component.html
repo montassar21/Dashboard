@@ -1,21 +1,22 @@
 <body>
 
-
     <main id="main" class="main">
         <div class="row justify-content-between m-2 w-100 mb-3">
             <div class="col-md-4 row ">
                 <div class="form-group p-2 w-50">
-                    <select id="housingSelector" class="form-control bg-white rounded-pill">
-                        <option value="housing">Logement</option>
-                    </select>
+                
+                    <select id="housingSelector" class="form-control bg-white rounded-pill" [(ngModel)]="selectedHousing" (change)="onHousingChange()">
+                        <option *ngFor="let housing of housings" [value]="housing">{{ housing }}</option>
+                      </select>
 
                 </div>
             </div>
             <div class="col-md-2 row">
                 <div class="form-group p-2">
-                    <select id="yearSelector" class="form-control bg-white rounded-pill">
-                        <option value="year">dec. 2022</option>
-                    </select>
+            
+                    <select id="yearSelector" class="form-control bg-white rounded-pill" [(ngModel)]="selectedYear" (change)="onYearChange()">
+                        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                      </select>
                 </div>
             </div>
 
