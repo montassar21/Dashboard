@@ -29,7 +29,7 @@ export class DashboardComponent implements AfterViewInit {
       data: {
         labels: ['jan.', 'fev.', 'mar.', 'avr.', 'mai.', 'juin.', 'juil.', 'aou.', 'sep.', 'oct.', 'nov.', 'dec.'],
         datasets: [{
-          label: `Pay-out versé ${this.selectedYear} - ${this.selectedHousing}`,
+          label: `Layers ${this.selectedYear} - ${this.selectedHousing}`,
           data: this.getDataForYearAndHousing(),
           backgroundColor: 'rgba(0, 123, 255, 0.2)',  // Couleur de fond plus légère pour un graphique linéaire
           borderColor: 'rgba(0, 123, 255, 1)',  // Couleur de la ligne
